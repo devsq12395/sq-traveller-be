@@ -11,8 +11,8 @@ const API_KEY = process.env.GOOGLE_API_KEY; // Load API key from environment var
 
 // Load SSL certificates
 const sslOptions = {
-  key: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.key"), // Path to the private key
-  cert: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.pem"), // Path to the certificate
+  key: fs.readFileSync("/etc/letsencrypt/live/api.goagenda.net/privkey.pem"), // Path to the private key
+  cert: fs.readFileSync("/etc/letsencrypt/live/api.goagenda.net/fullchain.pem"), // Path to the certificate
 };
 
 // Allow CORS for specific origins
