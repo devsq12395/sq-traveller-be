@@ -1,18 +1,18 @@
 require("dotenv").config();
 
-const https = require("https");
 const fs = require("fs");
+const https = require("https");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
-
 const app = express();
+
 const API_KEY = process.env.GOOGLE_API_KEY; // Load API key from environment variables
 
-// Path to Cloudflare Origin Certificate and Key
+// Load SSL certificates
 const sslOptions = {
-  key: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.key"),
-  cert: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.pem"),
+  key: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.key"), // Path to the private key
+  cert: fs.readFileSync("/etc/ssl/cloudflare/api.goagenda.net.pem"), // Path to the certificate
 };
 
 // Allow CORS for specific origins
@@ -107,9 +107,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "An unexpected error occurred" });
 });
 
-// Start the HTTPS server
-const PORT = process.env.PORT || 443;
-
-https.createServer(sslOptions, app).listen(PORT, () => {
-  console.log(`HTTPS proxy server running on https://api.goagenda.net`);
-});
+// Start the server with HTTPS
+const PORT = process.env.PORT || 3000;
+https
+  .createServer(sslOptions, app)
+  .listen(PORT, () => {
+    console.log(`Secure proxy server running on port ${PORT}`);
+  });
