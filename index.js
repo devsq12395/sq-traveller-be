@@ -11,8 +11,8 @@ const API_KEY = process.env.GOOGLE_API_KEY; // Load API key from environment var
 
 // Load SSL certificates
 const sslOptions = {
-  key: fs.readFileSync("/etc/letsencrypt/live/api.goagenda.net/privkey.pem"), // Path to the private key
-  cert: fs.readFileSync("/etc/letsencrypt/live/api.goagenda.net/fullchain.pem"), // Path to the certificate
+  key: fs.readFileSync("/home/bitnami/ssl/privkey.pem"), // Path to the private key
+  cert: fs.readFileSync("/home/bitnami/ssl/fullchain.pem"), // Path to the certificate
 };
 
 // Allow CORS for specific origins
@@ -108,7 +108,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server with HTTPS
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 443;
 https
   .createServer(sslOptions, app)
   .listen(PORT, () => {
